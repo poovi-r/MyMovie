@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axiosInstance, { API_PATHS } from "../Utils/apiPaths.js";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,6 +11,14 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const popupShown = useRef(false);
+
+  useEffect(() => {
+    if (!popupShown.current) {
+      alert("Click 'Sign In' to continue with the sample user account.");
+      popupShown.current = true;
+    }
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
