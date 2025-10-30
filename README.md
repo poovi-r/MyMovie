@@ -41,7 +41,7 @@ It allows users to **manage Movies, Series, and Documentaries**, including featu
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/PoovarasanR/movie-management-system.git
+git clone [https://github.com/PoovarasanR/movie-management-system.git](https://github.com/poovi-r/MyMovie)
 cd movie-management-system
 
 🖥️ Backend Setup
@@ -83,7 +83,7 @@ In /frontend/src/Utils/apiPaths.js:
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "http://localhost:5000/",
   withCredentials: true,
 });
 
