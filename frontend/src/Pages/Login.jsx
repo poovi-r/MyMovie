@@ -4,7 +4,10 @@ import axiosInstance, { API_PATHS } from "../Utils/apiPaths.js";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "user@example.com", // Sample email
+    password: "Pass@123", // Sample password
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
