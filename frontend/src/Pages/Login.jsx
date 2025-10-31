@@ -10,6 +10,7 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const popupShown = useRef(false);
 
@@ -37,6 +38,7 @@ const Login = () => {
     }
 
     setError("");
+     setLoading(true);
 
     try {
       const res = await axiosInstance.post(API_PATHS.AUTH.LOGIN, form);
@@ -51,6 +53,8 @@ const Login = () => {
       setForm({ email: "", password: "" });
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -135,7 +139,7 @@ const Login = () => {
               type="submit"
               className="w-full py-2.5 px-4 text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-lg shadow-md hover:from-indigo-700 hover:to-indigo-800 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300"
             >
-              Sign In
+              {loading ? "Logging in..." : "Sign In"}
             </button>
           </div>
         </form>
