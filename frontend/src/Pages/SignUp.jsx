@@ -18,30 +18,58 @@ const SignUp = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
 
+  // ✅ Email & password regex same as backend schema
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validateForm = () => {
+    const { name, email, password, confirmPassword } = formData;
+
+    if (!name.trim()) return "Please enter your name.";
+    if (!email.trim()) return "Please enter your email.";
+    if (!emailRegex.test(email)) return "Please enter a valid email address.";
+    if (!password) return "Please enter a password.";
+    if (password.length < 6)
+      return "Password must be at least 6 characters long.";
+    if (!passwordRegex.test(password))
+      return "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+    if (password !== confirmPassword)
+      return "Passwords do not match. Please re-enter.";
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
     setSuccessMsg("");
-    setLoading(true);
 
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMsg(validationError);
+      return;
+    }
+
+    setLoading(true);
     try {
       const { data } = await axiosInstance.post(API_PATHS.AUTH.REGISTER, formData);
-
       if (data.success) {
         setSuccessMsg(data.message);
         setTimeout(() => navigate("/login"), 2000);
       } else {
-        setErrorMsg(data.message || "Registration failed");
+        setErrorMsg(data.message || "Registration failed. Please try again.");
       }
     } catch (error) {
       const message =
         error.response?.data?.message ||
-        "Something went wrong. Please try again.";
+        (error.response?.status === 409
+          ? "Email already exists. Please use another email."
+          : "Something went wrong. Please try again.");
       setErrorMsg(message);
     } finally {
       setLoading(false);

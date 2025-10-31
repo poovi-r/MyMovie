@@ -4,7 +4,7 @@ import { generateToken } from "../Utils/generateToken.js";
 
 // -------------------------------- Register --------------------------------------------------------------
 export const registerUser = async (req, res) => {
-  try {
+    try {
     const { name, email, password, confirmPassword } = req.body;
 
     if (!name || !email || !password || !confirmPassword) {
@@ -37,7 +37,7 @@ export const registerUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: 'User registered successfully. Please check your email to verify your account.',
+      message: 'User registered successfully.',
       data: userWithoutPassword,
       token
     });

@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
 // Hashing password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified('password')) {
-    next();
+   return next();
   }
   const saltRounds = await bcrypt.genSalt(10);
   try {
